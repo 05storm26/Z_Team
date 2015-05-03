@@ -7,6 +7,9 @@ public interface IPlainTextGen //public abastract class
     
     public String rawText = "";
     
-    public void ReadFile();
-    public void SaveToFile();
+    public void readFile(String fileName);
+    public void saveToFile(String fileName);
+    
+    public void doTheMagic();
+    
 }

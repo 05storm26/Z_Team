@@ -5,9 +5,11 @@ public class Main {
 	{
 		HtmlToPlain html = new HtmlToPlain();
 		
-		html.ReadFile();
+		html.readFile("in.html");
 		
-		html.SaveToFile();
+		html.doTheMagic();
+		
+		html.saveToFile("out.txt");
 	}
 	
 }

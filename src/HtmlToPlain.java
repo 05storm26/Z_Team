@@ -2,8 +2,8 @@ import java.io.*;
 
 public class HtmlToPlain implements IPlainTextGen  
 {
-	public FileReader in = null;	//filestream
-    public FileWriter out = null;
+	public FileReader in;
+    public FileWriter out;
 	
     public String rawText;
 	
@@ -13,53 +13,33 @@ public class HtmlToPlain implements IPlainTextGen
     }
     
     
-    public void ReadFile()
+    public void readFile(String fileName)
     {
-    	try {
-			in = new FileReader("in.html");
-			
-			char[] c = new char[1024];
-			
-			try {
-				in.read(c);
-				rawText = new String(c);
-				
-				
-				rawText.trim();
-				
-				rawText = rawText.replaceAll("\\<.*?>","");
-				
-				rawText = rawText.replaceAll("[\\t\\n\\r]+", "");
-				
-				
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-			System.out.println("Beolvasas megtortent.");
-			
-			System.out.print("Tartalom: " + rawText);
-			
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+    	try 
+    	{
+			in = new FileReader(fileName);		
+		} 
+    	catch (FileNotFoundException e) 
+    	{
+			e.printStackTrace();
 		}
     }
     
-    public void SaveToFile()
+    public void saveToFile(String fileName)
     {
     	//System.out.println("asdawdadwawdwad.");
     	
     	try {
-			out = new FileWriter("out.txt");
+			out = new FileWriter(fileName);
+			
+			System.out.println(rawText.length());
 			
 			out.write(rawText.toCharArray());
-			out.close();
-			
-		} catch (IOException e) {
+			out.close();		
+		} 
+    	
+    	catch (IOException e) 
+    	{
 			// TODO Auto-generated catch block
 			
 			System.out.println("sikertelen Mentes.");
@@ -68,6 +48,34 @@ public class HtmlToPlain implements IPlainTextGen
 		}
     	
     	System.out.println("Mentes sikeresen lezajlott.");
-    	
     }
+
+    public void doTheMagic()
+    {
+		try 
+		{
+			char[] c = new char[1024];
+			
+			in.read(c);
+			rawText = new String(c);
+				
+			rawText = rawText.trim();
+			
+			rawText = rawText.replaceAll("\\<.*?>","");
+			
+			rawText = rawText.replaceAll("[\\t\\n\\r]+", "\n");
+			
+			//rawText.trim();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		
+		System.out.println("Beolvasas megtortent.");
+		
+		System.out.print("Tartalom: " + rawText);
+    }
+    
 }
