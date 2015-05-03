@@ -5,77 +5,73 @@ public class HtmlToPlain implements IPlainTextGen
 	public FileReader in;
     public FileWriter out;
 	
-    public String rawText;
-	
     public HtmlToPlain()
     {
-    	rawText = "";
-    }
-    
-    
-    public void readFile(String fileName)
-    {
-    	try 
-    	{
-			in = new FileReader(fileName);		
-		} 
-    	catch (FileNotFoundException e) 
-    	{
-			e.printStackTrace();
-		}
-    }
-    
-    public void saveToFile(String fileName)
-    {
-    	//System.out.println("asdawdadwawdwad.");
     	
+    }
+    
+     
+    public void inputFile(FileReader in)
+    {	
+    	this.in = in;
+    }
+    
+    public void outputFile(FileWriter out)
+    {
+    	this.out = out;
+    }
+    
+    public void save(String s)
+    {
     	try {
-			out = new FileWriter(fileName);
+			out.write(s);
 			
-			System.out.println(rawText.length());
+			//System.out.println("Mentes sikeresen lezajlott.'" + s + "'");
 			
-			out.write(rawText.toCharArray());
-			out.close();		
-		} 
-    	
-    	catch (IOException e) 
-    	{
-			// TODO Auto-generated catch block
-			
-			System.out.println("sikertelen Mentes.");
-			
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    	
-    	System.out.println("Mentes sikeresen lezajlott.");
     }
+    
 
     public void doTheMagic()
     {
-		try 
+		try (BufferedReader br = new BufferedReader(in)) 
 		{
-			char[] c = new char[1024];
-			
-			in.read(c);
-			rawText = new String(c);
+		    String line;
+		    while ((line = br.readLine()) != null) 
+		    {
+		    	//line = line.trim();
+		    	
+		    	line = line.replaceAll("\\<.*?>","\n");
 				
-			rawText = rawText.trim();
-			
-			rawText = rawText.replaceAll("\\<.*?>","");
-			
-			rawText = rawText.replaceAll("[\\t\\n\\r]+", "\n");
-			
-			//rawText.trim();
-		} 
+		    	//line = line.trim();
+		    	
+		    	line = line.replaceAll("[\\t\\n\\r]+", "\n");
+		    	
+		    	line = line.trim();
+		    	
+		    	if(line.length() != 0)
+		    		save(line + "\n");
+		    }
+		}	
 		catch (IOException e) 
 		{
 			e.printStackTrace();
 		}
 		
-		
-		System.out.println("Beolvasas megtortent.");
-		
-		System.out.print("Tartalom: " + rawText);
+		closeOutPutFile();
+    }
+    
+    
+    public void closeOutPutFile()
+    {
+    	try {
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
 }

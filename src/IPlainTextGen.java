@@ -5,10 +5,12 @@ public interface IPlainTextGen //public abastract class
 	public FileReader in = null;
     public FileWriter out = null;
     
-    public String rawText = "";
+    public void inputFile(FileReader in);
+    public void outputFile(FileWriter out);
     
-    public void readFile(String fileName);
-    public void saveToFile(String fileName);
+    public void save(String s);
+    
+    public void closeOutPutFile();
     
     public void doTheMagic();
     
